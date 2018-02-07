@@ -7,7 +7,7 @@ Scenario: A page is loading and you want a function to execute after all AJAX ca
 Include the following as the first script in the head of your HTML:
 
 ```
-<script src="https://cdn.rawgit.com/AndrewJGregory/Fun-With-XMLHttpRequests/13d02985/main.js" charset="utf-8"></script>
+<script src="https://cdn.rawgit.com/AndrewJGregory/Fun-With-XMLHttpRequests/62e567ba/main.js" charset="utf-8"></script>
 ```
 
 Then invoke `callWhenReadyToGo(yourFunction)`. `yourFunction` will be called when all AJAX calls/`XMLHttpRequest`s are finished.
