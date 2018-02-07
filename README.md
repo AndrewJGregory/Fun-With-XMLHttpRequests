@@ -1,6 +1,6 @@
 # Introduction
 
-Scenario: A page is loading and you want a function to execute after all AJAX calls/`XMLHttpRequest`s are finished. Maybe these calls insert more data or `HTMLElements` onto the page, and you want your function to have access to whatever the AJAX calls influence. Simply listening for `DOMContentLoaded` on the document will not work because that is only the DOM content and not the asynchronous requests. What to do?
+Scenario: A page is loading and you want a function to execute after all AJAX calls/`XMLHttpRequest`s are finished. Maybe these calls insert more data or `HTMLElements` onto the page, and you want your function to have access to whatever the AJAX calls influence. Simply listening for `DOMContentLoaded` on the document will not work because asynchronous requests are not a part of the DOM content. What to do?
 
 ## How to use
 
@@ -18,7 +18,7 @@ Then invoke `callWhenReadyToGo(yourFunction)`. `yourFunction` will be called whe
 
 ## Explanation
 
-Any AJAX call is a `XMLHttpRequest` at its core. `callWhenReadyToGo(callback)` hooks into the prototype `open` method of `XMLHttpRequest`. As all requests need to be opened in order to be sent, this is an easy place to insert the logic to detect if requests are completed. The idea is to keep track of how many requests have been opened and how many requests have been completed. When the number of opened requests is equal to the number of completed requests, then all `XMLHttpRequest`s have been completed and the callback can be executed. Before the `open` method is modified, a reference needs to be kept to the original `open` so it can be executed after this additional logic. Below, the code:
+Any AJAX call is a `XMLHttpRequest` at its core. `callWhenReadyToGo(callback)` hooks into the prototype `open` method of `XMLHttpRequest`. As all requests need to be opened in order to be sent, this is a convenient place to insert the logic to detect if requests are completed. The idea is to keep track of how many requests have been opened and how many requests have been completed. When the number of opened requests is equal to the number of completed requests, then all `XMLHttpRequest`s have been completed and the callback can be executed. Before the `open` method is modified, a reference needs to be kept to the original `open` so it can be executed after this additional logic. Below, the code:
 
 ```
 function callWhenReadyToGo(callback) {
