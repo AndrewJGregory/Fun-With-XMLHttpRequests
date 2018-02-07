@@ -1,25 +1,3 @@
-var defaults = {
-  method: 'GET',
-  url: "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=bcb83c4b54aee8418983c2aff3073b3b",
-  success: function () {},
-  error: function () {},
-  data: {},
-  contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-};
-
-function makeHttpRequest(options) {
-  var xhr = new XMLHttpRequest();
-  xhr.open(options.method, options.url);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      return options.success(JSON.parse(xhr.response));
-    } else {
-      return options.error(JSON.parse(xhr.response));
-    }
-  };
-  xhr.send();
-}
-
 function callWhenReadyToGo(callback) {
   var open = XMLHttpRequest.prototype.open;
   var numOpenedRequests = 0;
@@ -37,5 +15,11 @@ function callWhenReadyToGo(callback) {
     });
     return open.apply(that, arguments);
   };
-  makeHttpRequest(defaults);
+
+  window.setTimeout(function () {
+    if (numOpenedRequests === 0) {
+      callback();
+      XMLHttpRequest.prototype.open = open;
+    }
+  }, 0);
 }
