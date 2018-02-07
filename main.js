@@ -24,7 +24,6 @@ function makeHttpRequest(options) {
   xhr.send();
 }
 
-
 function callWhenReadyToGo(callback) {
   var open = XMLHttpRequest.prototype.open;
   var numOpenedRequests = 0;
