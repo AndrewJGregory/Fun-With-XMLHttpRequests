@@ -38,11 +38,18 @@ function callWhenReadyToGo(callback) {
     });
     return open.apply(that, arguments);
   };
-  makeHttpRequest(defaults);
+
+  window.setTimeout(function () {
+    if (numOpenedRequests === 0) {
+      callback();
+      XMLHttpRequest.prototype.open = open;
+    }
+  }, 0);
 }
+
 ```
 
 #### Finer Details
   * `loadend` is used because jQuery overrides the `onreadystatechange` event listener. If `onreadystatechange` was used as the type of event listener, then any requests made by jQuery would not be acknowledged.
 
-  * What if no requests are made on the page? Due to hooking into the `open` method, a request would have to be made in order for the callback to execute. This is why the last line makes a simple request so the callback can execute if no other requests were made by the webpage itself.
+  * What if no requests are made on the page? The callback should still be called. By setting a timeout, it will execute after any requests are made. If no requests have been made, then the callback is invoked and the original open method is restored on `XMLHttpRequest.prototype`.
